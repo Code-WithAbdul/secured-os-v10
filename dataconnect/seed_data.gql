@@ -1,0 +1,134 @@
+mutation CreateDemoData @transaction @auth(level: PUBLIC, insecureReason: "Seed data is safe to expose to the public.") {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      displayName: "Alice Smith",
+      email: "alice.smith@example.com",
+      createdAt: "2023-01-15T10:00:00Z",
+      shippingAddress: "123 Main St, Anytown, USA",
+      billingAddress: "123 Main St, Anytown, USA",
+      isAdmin: false
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      displayName: "Bob Johnson",
+      email: "bob.johnson@example.com",
+      createdAt: "2023-02-20T11:30:00Z",
+      shippingAddress: "456 Oak Ave, Otherville, USA",
+      billingAddress: "456 Oak Ave, Otherville, USA",
+      isAdmin: true
+    }
+  ])
+  category_insertMany(data: [
+    {
+      id: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      name: "Electronics",
+      description: "Gadgets and electronic devices",
+      createdAt: "2023-03-01T09:00:00Z"
+    },
+    {
+      id: "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+      name: "Home Appliances",
+      description: "Appliances for your home",
+      createdAt: "2023-03-05T14:00:00Z"
+    }
+  ])
+  product_insertMany(data: [
+    {
+      id: "f1e2d3c4-b5a6-7890-1234-567890abcde0",
+      name: "Smartphone X",
+      price: 699.99,
+      description: "A high-end smartphone with advanced features.",
+      categoryId: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      imageUrl: "https://example.com/smartphone_x.jpg",
+      createdAt: "2023-04-10T10:00:00Z",
+      brand: "TechCorp",
+      stockQuantity: 150
+    },
+    {
+      id: "e2d3c4b5-a6f7-8901-2345-67890abcdef1",
+      name: "Smart TV 50-inch",
+      price: 499.00,
+      description: "4K Smart TV with stunning visuals.",
+      categoryId: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      imageUrl: "https://example.com/smart_tv.jpg",
+      createdAt: "2023-04-12T11:00:00Z",
+      brand: "Visionary",
+      stockQuantity: 75
+    },
+    {
+      id: "d3c4b5a6-f7e8-9012-3456-7890abcdef23",
+      name: "Coffee Maker Deluxe",
+      price: 89.50,
+      description: "Automatic coffee maker with programmable settings.",
+      categoryId: "b2c3d4e5-f6a7-8901-2345-67890abcdef0",
+      imageUrl: "https://example.com/coffee_maker.jpg",
+      createdAt: "2023-04-15T09:00:00Z",
+      brand: "MorningBrew",
+      stockQuantity: 200
+    }
+  ])
+  order_insertMany(data: [
+    {
+      id: "1a2b3c4d-5e6f-7890-1234-567890abcdef",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      orderDate: "2023-05-01",
+      totalAmount: 789.49,
+      shippingAddress: "123 Main St, Anytown, USA",
+      billingAddress: "123 Main St, Anytown, USA",
+      status: "Processing",
+      createdAt: "2023-05-01T15:00:00Z"
+    },
+    {
+      id: "2b3c4d5e-6f7a-8901-2345-67890abcdef1",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      orderDate: "2023-05-02",
+      totalAmount: 499.00,
+      shippingAddress: "456 Oak Ave, Otherville, USA",
+      billingAddress: "456 Oak Ave, Otherville, USA",
+      status: "Shipped",
+      createdAt: "2023-05-02T16:00:00Z",
+      trackingNumber: "TRK12345"
+    }
+  ])
+  orderItem_insertMany(data: [
+    {
+      orderId: "1a2b3c4d-5e6f-7890-1234-567890abcdef",
+      productId: "f1e2d3c4-b5a6-7890-1234-567890abcde0",
+      quantity: 1,
+      unitPrice: 699.99
+    },
+    {
+      orderId: "1a2b3c4d-5e6f-7890-1234-567890abcdef",
+      productId: "d3c4b5a6-f7e8-9012-3456-7890abcdef23",
+      quantity: 1,
+      unitPrice: 89.50
+    },
+    {
+      orderId: "2b3c4d5e-6f7a-8901-2345-67890abcdef1",
+      productId: "e2d3c4b5-a6f7-8901-2345-67890abcdef1",
+      quantity: 1,
+      unitPrice: 499.00
+    }
+  ])
+  supportTicket_insertMany(data: [
+    {
+      id: "9f8e7d6c-5b4a-3210-fedc-ba9876543210",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      subject: "Issue with Smartphone X delivery",
+      description: "My Smartphone X order has not arrived yet.",
+      status: "Open",
+      createdAt: "2023-05-03T10:00:00Z"
+    },
+    {
+      id: "8e7d6c5b-4a32-1098-fedc-ba9876543210",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      subject: "Question about Smart TV warranty",
+      description: "I have a question about the warranty for my Smart TV.",
+      status: "Closed",
+      createdAt: "2023-05-04T11:00:00Z",
+      response: "Please refer to our warranty policy online.",
+      resolvedAt: "2023-05-04T14:00:00Z"
+    }
+  ])
+}

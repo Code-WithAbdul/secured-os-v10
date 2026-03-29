@@ -1,0 +1,48 @@
+# 1. Query all products, accessible to the public
+query ListAllProducts @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  products {
+    id
+    name
+    price
+    description
+    imageUrl
+    category {
+      name
+    }
+  }
+}
+
+# 2. Query a single user's orders, only accessible by the user themselves
+query GetMyOrders @auth(level: USER) {
+  orders(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    orderDate
+    totalAmount
+    status
+    orderItems {
+      quantity
+      unitPrice
+      product {
+        name
+      }
+    }
+  }
+}
+
+# 3. Create a new support ticket for the current user
+mutation CreateSupportTicket($subject: String!, $description: String!) @auth(level: USER) {
+  supportTicket_insert(data: {
+    userId_expr: "auth.uid",
+    subject: $subject,
+    description: $description,
+    status: "Open"
+  })
+}
+
+# 4. Update the stock quantity of a product (admin only)
+mutation UpdateProductStock($id: UUID!, $newStockQuantity: Int!) @auth(expr: "auth.token.admin == true") {
+  product_update(
+    key: {id: $id},
+    data: {stockQuantity: $newStockQuantity}
+  )
+}
